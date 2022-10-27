@@ -1,0 +1,57 @@
+create table employee(empid varchar(10),empname varchar(15),gender
+varchar(10);
+
+insert into employee values ('&empid', '&empname,'&gender'); 
+
+alter table employee add(empage number(3))
+
+truncate table student1; 
+
+create table studentmarks (stdid varchar(10),branch varchar(15),m1 number(3),m2 number(3),m3
+number(3),m4 number(3),m5 number(5),total number(3));
+
+insert into studentmarks values(' &stdid', '&branch ',&m1,&m2,&m3,&m4,&m5,&total);
+
+update Hospital set experience='5' where docid='D003'; 
+
+delete from Hospital where docid='D003'; 
+
+
+select ename,basicsal from emp_det where basicsal > (select min(basicsal) from emp_det
+where dno=10 order by ename);
+
+select pno,pname from prodetails where exists (select pno from workin where
+workin.pno=prodetails.pno);
+
+desc emp8;
+
+select count(emsal) from emp8; 
+
+select sum(emsal) from emp8;
+
+select avg(emsal) from emp8; 
+
+select min(emsal) from emp8; 
+
+select max(emsal) from emp8;
+
+
+select bname from library5 union select bname from study3;
+
+select bname from library5 union all select bname from study3;
+
+select bname from library5 minus select bname from study3;
+
+select bname from library5 intersect select bname from study3;
+
+select books1.bookname,library0.bookautname from books1 inner join library0 on
+books1.bookid=library0.bookid;
+
+select books1.bookname,library0.bookautname from books1 left join library0 on
+books1.bookid=library0.bookid;
+
+select books1.bookname,library0.bookautname from books1 right join library0 on
+books1.bookid=library0.bookid;
+
+select books1.bookname,library0.bookautname from books1 full outer join library0 on
+books1.bookid=library0.bookid;
