@@ -1,0 +1,15 @@
+declare
+n number(3);
+i number(3):=1;
+f number(3):=1;
+begin
+n:=&n;
+dbms_output.put_line('no is:'||n);
+while(i<=n)
+loop
+f:=f*i;
+i:=i+1;
+end loop;
+dbms_output.put_line('factorial number is:'||f);
+end;
+/

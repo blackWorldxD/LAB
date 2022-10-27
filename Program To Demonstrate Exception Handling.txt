@@ -1,0 +1,88 @@
+SQL> Create Table Customers (
+Id Int Not Null,
+Name Varchar (20) Not Null,
+Age Int Not Null,
+Address Char (25),
+Salary Decimal (18, 2),
+Primary Key (Id)
+);
+SQL > Table Created
+SQL> insert into customers values ( &id,'&name', &age,'&address',&salaray);
+Enter value for id: 101
+Enter value for name: hasen
+Enter value for age: 21
+Enter value for address: madurai
+Enter value for salaray: 15000
+old 1: insert into customers values ( &id,'&name', &age,'&address',&salaray)
+new 1: insert into customers values ( 101,'hasen', 21,'madurai',15000)
+1 row created.
+SQL> /
+Enter value for id: 102
+Enter value for name: komal
+Enter value for age: 22
+Enter value for address: MP
+Enter value for salaray: 4500
+old 1: insert into customers values ( &id,'&name', &age,'&address',&salaray)
+new 1: insert into customers values ( 102,'komal', 22,'MP',4500)
+1 row created.
+SQL> /
+Enter value for id: 103
+Enter value for name: khilan
+Enter value for age: 25
+Enter value for address: delhi
+Enter value for salaray: 20000
+old 1: insert into customers values ( &id,'&name', &age,'&address',&salaray)
+new 1: insert into customers values ( 103,'khilan', 25,'delhi',20000)
+1 row created.
+DECLARE
+c_id customers.id%type := 8;
+c_name customerS.Name%type;
+c_addr customers.address%type;
+BEGIN
+SELECT name, address INTO c_name, c_addr
+FROM customers
+WHERE id = c_id;
+DBMS_OUTPUT.PUT_LINE ('Name: '|| c_name);
+DBMS_OUTPUT.PUT_LINE ('Address: ' || c_addr);
+EXCEPTION
+WHEN no_data_found THEN
+dbms_output.put_line('No such customer!');
+WHEN others THEN
+dbms_output.put_line('Error!');
+END;
+/
+No such customer!
+PL/SQL procedure successfully completed.
+Raising Exceptions:
+Set serveroutput on
+SQL> DECLARE
+c_id customers.id%type := &cc_id;
+c_name customerS.Name%type;
+c_addr customers.address%type;
+-- user defined exception
+ex_invalid_id EXCEPTION;
+BEGIN
+IF c_id <= 0 THEN
+RAISE ex_invalid_id;
+ELSE
+SELECT name, address INTO c_name, c_addr
+FROM customers
+WHERE id = c_id;
+DBMS_OUTPUT.PUT_LINE ('Name: '|| c_name);
+DBMS_OUTPUT.PUT_LINE ('Address: ' || c_addr);
+END IF;
+EXCEPTION
+WHEN ex_invalid_id THEN
+dbms_output.put_line('ID must be greater than zero!');
+WHEN no_data_found THEN
+dbms_output.put_line('No such customer!');
+WHEN others THEN
+dbms_output.put_line('Error!');
+END;
+/
+OUTPUT:
+Enter value for cc_id: -103
+old 2: c_id customers.id%type := &cc_id;
+new 2: c_id customers.id%type := -103;
+ID must be greater than zero!
+PL/SQL procedure successfully completed.

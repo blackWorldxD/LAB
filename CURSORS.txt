@@ -1,0 +1,92 @@
+SQL> Create Table Customers (
+Id Int Not Null,
+Name Varchar (20) Not Null,
+Age Int Not Null,
+Address Char (25),
+Salary Decimal (18, 2),
+Primary Key (Id)
+);
+SQL > Table Created
+SQL> insert into customers values ( &id,'&name', &age,'&address',&salaray);
+Enter value for id: 101
+Enter value for name: hasen
+Enter value for age: 21
+Enter value for address: madurai
+Enter value for salaray: 15000
+old 1: insert into customers values ( &id,'&name', &age,'&address',&salaray)
+new 1: insert into customers values ( 101,'hasen', 21,'madurai',15000)
+1 row created.
+SQL> /
+Enter value for id: 102
+Enter value for name: komal
+Enter value for age: 22
+Enter value for address: MP
+Enter value for salaray: 4500
+old 1: insert into customers values ( &id,'&name', &age,'&address',&salaray)
+new 1: insert into customers values ( 102,'komal', 22,'MP',4500)
+1 row created.
+SQL> /
+Enter value for id: 103
+Enter value for name: khilan
+Enter value for age: 25
+Enter value for address: delhi
+Enter value for salaray: 20000
+old 1: insert into customers values ( &id,'&name', &age,'&address',&salaray)
+new 1: insert into customers values ( 103,'khilan', 25,'delhi',20000)
+1 row created.
+The following program will update the table and increase the salary of each customer by 500
+and use the SQL%ROWCOUNT attribute to determine the number of rows affected –
+CURSOR CREATION:
+Set serveroutput on
+SQL>
+SQL> DECLARE
+total_rows number(2);
+BEGIN
+UPDATE customers
+SET salary = salary + 500;
+IF sql%notfound THEN
+dbms_output.put_line('no customers selected');
+ELSIF sql%found THEN
+total_rows := sql%rowcount;
+dbms_output.put_line( total_rows || ' customers selected ');
+END IF;
+END;
+/
+Old salary: 15000
+New salary: 15500
+Salary difference: 500
+Old salary: 20000
+New salary: 20500
+Salary difference: 500
+Old salary: 8500
+New salary: 9000
+Salary difference: 500
+3 customers selected
+PL/SQL procedure successfully completed.
+SQL> select * from Customers;
+ID NAME AGE ADDRESS SALARY
+101 hase 21 madurai 15000
+103 khilan 25 delhi 20000
+7 Kriti 22 HP 8500
+EXPLICIT CURSOR:
+Set serveroutput on
+SQL> DECLARE
+c_id customers.id%type;
+c_name customers.name%type;
+c_addr customers.address%type;
+CURSOR c_customers is
+SELECT id, name, address FROM customers;
+BEGIN
+OPEN c_customers;
+LOOP
+FETCH c_customers into c_id, c_name, c_addr;
+EXIT WHEN c_customers%notfound;
+dbms_output.put_line(c_id || ' ' || c_name || ' ' || c_addr);
+END LOOP;
+CLOSE c_customers;
+END;
+/
+101 hase madurai
+103 khilan delhi
+7 Kriti HP
+PL/SQL procedure successfully completed

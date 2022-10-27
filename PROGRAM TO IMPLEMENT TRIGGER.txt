@@ -1,0 +1,78 @@
+SQL> Create Table Customers (
+Id Int Not Null,
+Name Varchar (20) Not Null,
+Age Int Not Null,
+Address Char (25),
+Salary Decimal (18, 2),
+Primary Key (Id)
+);
+SQL > Table Created
+SQL> insert into customers values ( &id,'&name', &age,'&address',&salaray);
+Enter value for id: 101
+Enter value for name: hasen
+Enter value for age: 21
+Enter value for address: madurai
+Enter value for salaray: 15000
+old 1: insert into customers values ( &id,'&name', &age,'&address',&salaray)
+new 1: insert into customers values ( 101,'hasen', 21,'madurai',15000)
+1 row created.
+SQL> /
+Enter value for id: 102
+Enter value for name: komal
+Enter value for age: 22
+Enter value for address: MP
+Enter value for salaray: 4500
+old 1: insert into customers values ( &id,'&name', &age,'&address',&salaray)
+new 1: insert into customers values ( 102,'komal', 22,'MP',4500)
+1 row created.
+SQL> /
+Enter value for id: 103
+Enter value for name: khilan
+Enter value for age: 25
+Enter value for address: delhi
+Enter value for salaray: 20000
+old 1: insert into customers values ( &id,'&name', &age,'&address',&salaray)
+new 1: insert into customers values ( 103,'khilan', 25,'delhi',20000)
+1 row created.
+Trigger Creations:
+CREATE OR REPLACE TRIGGER display_salary_changes
+BEFORE DELETE OR INSERT OR UPDATE ON customers
+FOR EACH ROW
+WHEN (NEW.ID > 0)
+DECLARE
+sal_diff number;
+BEGIN
+sal_diff := :NEW.salary - :OLD.salary;
+dbms_output.put_line('Old salary: ' || :OLD.salary);
+dbms_output.put_line('New salary: ' || :NEW.salary);
+dbms_output.put_line('Salary difference: ' || sal_diff);
+END;
+/
+Trigger created.
+INSERTING:
+INSERT INTO CUSTOMERS (ID,NAME,AGE,ADDRESS,SALARY)
+2 VALUES (7, 'Kriti', 22, 'HP', 7500.00 );
+Old salary:
+New salary: 7500
+Salary difference:
+1 row created.
+UPDATING:
+SQL> UPDATE Customers
+SET salary=salary+1000
+WHERE id=7;
+1 row updated.
+SQL> select * from Customers;
+ID NAME AGE ADDRESS SALARY
+101 hase 21 madurai 15000
+103 khilan 25 delhi 20000
+7 Kriti
+DELETING:
+22 HP 8500
+DELETE Customers
+2 where id=102;
+1 row deleted.
+>select * from Customers;
+ID NAME AGE ADDRESS SALARY
+101 hase 21 madurai 15000
+103 khilan 25 delhi 20000
+7 Kriti 22 HP 7500
